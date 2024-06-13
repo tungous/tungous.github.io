@@ -1,6 +1,7 @@
-const swup = new Swup();
+const swup = new Swup({
+    plugins: [new SwupPreloadPlugin(), new SwupBodyClassPlugin(), new SwupFadeTheme()]
+});
 const splash = document.querySelector('.splash');
-
 
 
 function initializePage() {
@@ -31,50 +32,35 @@ function initializePage() {
     }
     window.addEventListener('scroll', checkScroll);
 
-    const buttons = document.querySelectorAll('button[id^="btn-work-"]');
-    let currentVisibleDiv = null;
-
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetClass = button.id.replace('btn-', '');
-            const targetDiv = document.querySelector(`.${targetClass}`);
-
-            if (currentVisibleDiv && currentVisibleDiv !== targetDiv) {
-                fadeOut(currentVisibleDiv, () => {
-                    fadeIn(targetDiv);
-                    currentVisibleDiv = targetDiv;
-                });
-            } else if (!currentVisibleDiv) {
-                fadeIn(targetDiv);
-                currentVisibleDiv = targetDiv;
-            }
+    const fadeInElement = document.querySelector('.work-content');
+      if (fadeInElement) {
+        const iframe = fadeInElement.querySelector('iframe');
+        if (iframe) {
+        iframe.addEventListener('load', () => {
+            fadeInElement.classList.add('video-show');
         });
-    });
-
-    function fadeIn(element) {
-        element.style.display = 'block';
-        requestAnimationFrame(() => {
-        element.style.transition = 'opacity 0.5s ease-in-out';
-        element.style.opacity = '1';
-    });
-    }
-    function fadeOut(element, callback) {
-        element.style.transition = 'opacity 0.5s';
-        element.style.opacity = '0';
-        setTimeout(() => {
-            element.style.display = 'none';
-            if (callback) callback();
-        }, 500); // Match this duration with the CSS transition duration
+        } else {
+        fadeInElement.classList.add('video-show');
+        }
     }
 
-    const mainElement = document.querySelector('main');
-    const body = document.body;
-
-    if (mainElement.querySelector('.work-present')) {
-        body.style.backgroundColor = '#000000';
-    } else {
-        body.style.backgroundColor = '#FCFBF4';
+    function restoreWorkContainerState() {
+    const workContainer = document.querySelector('.work-container');
+    const workContainerState = localStorage.getItem('workContainerState');
+        if (workContainerState === 'visible') {
+            workContainer.style.display = 'flex';
+            requestAnimationFrame(() => {
+                workContainer.style.transition = 'opacity 0.5s ease-in-out';
+                workContainer.style.opacity = '1';
+            });
+            workContainer.classList.add('work-show');
+        } else {
+            workContainer.style.opacity = '0';
+            workContainer.style.display = 'none';
+            workContainer.classList.remove('work-show');
+        }
     }
+    restoreWorkContainerState();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -99,6 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+window.addEventListener('load', () => {
+    const fadeInElement = document.querySelector('.work-content');
+    if (fadeInElement) {
+      fadeInElement.classList.add('initial-visible');
+    }
+    });
 
 const btn = document.getElementById('btn');
 const toggleText = btn.querySelector('.toggle-text');
@@ -131,6 +124,7 @@ btn_work.addEventListener('click', () => {
         setTimeout(() => {
             workContainer.classList.remove('work-show');
             workContainer.style.display = 'none';
+            localStorage.setItem('workContainerState', 'hidden');
         }, 500);
     } else {
         // Fade in
@@ -138,43 +132,42 @@ btn_work.addEventListener('click', () => {
         setTimeout(() => {
             workContainer.style.opacity = '1';
             workContainer.classList.add('work-show');
+            localStorage.setItem('workContainerState', 'visible');
         }, 10);
     }
 
 });
 
+
 const btn_about = document.getElementById('btn_about');
 const aboutContainer = document.querySelector('.about');
 const videoContainer = document.querySelector('.container-prague');
 
-// Set initial opacity of aboutContainer to 0
 aboutContainer.style.opacity = '0';
 
 btn_about.addEventListener('click', () => {
     if (aboutContainer.classList.contains('show')) {
-        // Fade out
         aboutContainer.style.opacity = '0';
         setTimeout(() => {
             aboutContainer.classList.remove('show');
             aboutContainer.style.display = 'none';
-        }, 500); // Match this duration with the CSS transition duration
+        }, 500);
     } else {
-        // Fade in
         aboutContainer.style.display = 'block';
         setTimeout(() => {
-            aboutContainer.style.opacity = '1'; // Set opacity to 1 after showing the container
+            aboutContainer.style.opacity = '1'; 
             aboutContainer.classList.add('show');
-        }, 250); // Small delay to ensure display is set before changing opacity
+        }, 250);
     }
-    
-    // Hide the video container if it is visible
+    /*
     if (videoContainer.classList.contains('show')) {
         videoContainer.style.opacity = '0';
         setTimeout(() => {
             videoContainer.classList.remove('show');
             videoContainer.style.display = 'none';
-        }, 500); // Match this duration with the CSS transition duration
+        }, 500);
     }
+    */
 });
 
 const btn2 = document.getElementById('btn2');
@@ -186,20 +179,18 @@ btn2.addEventListener('click', () => {
         setTimeout(() => {
             videoContainer.classList.remove('show');
             videoContainer.style.display = 'none';
-        }, 500); // Match this duration with the CSS transition duration
+        }, 500);
     } else {
-        // Fade in
         videoContainer.style.display = 'block';
         setTimeout(() => {
             videoContainer.classList.add('show');
             videoContainer.style.opacity = '1';
-        }, 10); // Small delay to ensure display is set before changing opacity
+        }, 10);
     }
 });
 
-let isToggleTextVisible = false; // Track the visibility state of the toggle-text
+let isToggleTextVisible = false; 
 
-// Function to toggle the visibility of the toggle-text
 function toggleTextVisibility(show) {
     if (show) {
         // Fade in
@@ -224,7 +215,7 @@ btn.addEventListener('click', () => {
 
 btn_about.addEventListener('click', () => {
     aboutContainer.classList.toggle('show');
-    videoContainer.classList.remove('show');
+    // videoContainer.classList.remove('show');
 
     // Toggle the visibility of toggle-text
     if (aboutContainer.classList.contains('show')) {
@@ -285,16 +276,6 @@ setTimeout(function() {
         enableScroll();
     }
 }, 5500);
-
-document.addEventListener('swup:contentReplaced', () => {
-
-    if (document.body.classList.contains('work')) {
-        document.body.style.backgroundColor = '#000000';
-    } else {
-        document.body.style.backgroundColor = '#FCFBF4';
-    }
-});
-
 
 swup.hooks.on('page:view', () => {
     initializePage();
