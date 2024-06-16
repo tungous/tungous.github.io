@@ -39,15 +39,17 @@ body.creatives {
 }
 
 .footer {
+  mix-blend-mode: difference;
+  color: white;
   position: fixed;
   bottom: 1vh;
   right: 1vw;
+  z-index: 100;
 }
 
 .footer h1 {
   margin: 0;
   font-size: 0.5vw;
-  z-index: 100;
 }
 
 .splash {
