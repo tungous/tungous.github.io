@@ -1,6 +1,6 @@
 const swup = new Swup({
     plugins: [new SwupPreloadPlugin(), new SwupBodyClassPlugin(), new SwupFadeTheme()]
-    });
+});
 const splash = document.querySelector('.splash');
 
 function initializePage() {
@@ -10,25 +10,25 @@ function initializePage() {
     function checkScroll() {
         const scrollPosition = window.scrollY;
 
-            const triggerPosition = 10;
-            if (scrollPosition > triggerPosition) {
-                imageContainer.classList.add('show');
-            } else {
-                imageContainer.classList.remove('show');
-            }
+        const triggerPosition = 10;
+        if (scrollPosition > triggerPosition) {
+            imageContainer.classList.add('show');
+        } else {
+            imageContainer.classList.remove('show');
         }
-    
+    }
+
     window.addEventListener('scroll', checkScroll);
 
     const fadeInElement = document.querySelector('.work-content');
-      if (fadeInElement) {
+    if (fadeInElement) {
         const iframe = fadeInElement.querySelector('iframe');
         if (iframe) {
-        iframe.addEventListener('load', () => {
-            fadeInElement.classList.add('video-show');
-        });
+            iframe.addEventListener('load', () => {
+                fadeInElement.classList.add('video-show');
+            });
         } else {
-        fadeInElement.classList.add('video-show');
+            fadeInElement.classList.add('video-show');
         }
     }
     restoreWorkContainerState();
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.scrollTo(0, 0);
 
-    
+
     initializePage();
 
     swup.hooks.on('page:view', () => {
@@ -76,9 +76,9 @@ function restoreWorkContainerState() {
 window.addEventListener('load', () => {
     const fadeInElement = document.querySelector('.work-content');
     if (fadeInElement) {
-      fadeInElement.classList.add('initial-visible');
+        fadeInElement.classList.add('initial-visible');
     }
-    });
+});
 
 const btn = document.getElementById('btn');
 const toggleText = btn.querySelector('.toggle-text');
@@ -109,7 +109,7 @@ btn_work.addEventListener('click', () => {
             workContainer.classList.remove('work-show');
             workContainer.style.display = 'none';
             localStorage.setItem('workContainerState', 'hidden');
-            
+
         }, 500);
     } else {
         workContainer.style.display = 'flex';
@@ -138,7 +138,7 @@ btn_about.addEventListener('click', () => {
     } else {
         aboutContainer.style.display = 'block';
         setTimeout(() => {
-            aboutContainer.style.opacity = '1'; 
+            aboutContainer.style.opacity = '1';
             aboutContainer.classList.add('show');
         }, 250);
     }
@@ -172,7 +172,7 @@ btn2.addEventListener('click', () => {
     }
 });
 
-let isToggleTextVisible = false; 
+let isToggleTextVisible = false;
 
 function toggleTextVisibility(show) {
     if (show) {
@@ -212,47 +212,47 @@ btn_about.addEventListener('click', () => {
 
 // left: 37, up: 38, right: 39, down: 40,
 // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {
-  e.preventDefault();
+    e.preventDefault();
 }
 
 function preventDefaultForScrollKeys(e) {
-  if (keys[e.keyCode]) {
-    preventDefault(e);
-    return false;
-  }
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
 }
 
 // modern Chrome requires { passive: false } when adding event
 var supportsPassive = false;
 try {
-  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-    get: function () { supportsPassive = true; } 
-  }));
-} catch(e) {}
+    window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+        get: function () { supportsPassive = true; }
+    }));
+} catch (e) { }
 
 var wheelOpt = supportsPassive ? { passive: false } : false;
 var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
 
 // call this to Disable
 function disableScroll() {
-  window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+    window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
 }
 
 // call this to Enable
 function enableScroll() {
-  window.removeEventListener('DOMMouseScroll', preventDefault, false);
-  window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
-  window.removeEventListener('touchmove', preventDefault, wheelOpt);
-  window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
 }
 
-setTimeout(function() {
+setTimeout(function () {
     const splashShownBefore = localStorage.getItem('splashShown');
     if (splashShownBefore === 'true') {
         // If the splash screen has been shown before, enable scrolling after a delay
@@ -263,3 +263,49 @@ setTimeout(function() {
 swup.hooks.on('page:view', () => {
     initializePage();
 });
+
+// work-loader.js
+
+function loadWorkContainer() {
+    const workContainers = document.querySelectorAll('.work-container');
+    if (!workContainers.length) return;
+
+    fetch('work.html')
+        .then(response => response.text())
+        .then(html => {
+            workContainers.forEach(container => {
+                container.innerHTML = html;
+            });
+
+            // Restore any stored state
+            restoreWorkContainerState();
+
+            // Reattach event listeners if needed
+            const btn_work = document.getElementById('btn_work');
+            if (btn_work) {
+                btn_work.addEventListener('click', () => {
+                    const workContainer = document.querySelector('.work-container');
+                    if (workContainer.classList.contains('work-show')) {
+                        workContainer.style.opacity = '0';
+                        setTimeout(() => {
+                            workContainer.classList.remove('work-show');
+                            workContainer.style.display = 'none';
+                            localStorage.setItem('workContainerState', 'hidden');
+                        }, 500);
+                    } else {
+                        workContainer.style.display = 'flex';
+                        setTimeout(() => {
+                            workContainer.style.opacity = '1';
+                            workContainer.classList.add('work-show');
+                            localStorage.setItem('workContainerState', 'visible');
+                        }, 10);
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Error loading work container:', error));
+}
+
+// Initialize on page load and Swup page:view
+document.addEventListener('DOMContentLoaded', loadWorkContainer);
+swup.hooks.on('page:view', loadWorkContainer);
