@@ -440,7 +440,7 @@ h1 a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: left;
   overflow-y: hidden;
 }
 
@@ -448,7 +448,7 @@ h1 a:hover {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 columns with equal width */
-  grid-template-rows: repeat(1, auto); /* 2 rows with auto height */
+  grid-template-rows: repeat(2, auto); /* 2 rows with auto height */
   gap: 5px; /* Gap between grid items */
   align-items: center;
 
@@ -483,11 +483,12 @@ h1 a:hover {
   -webkit-transition: opacity 1.5s ease-in-out;
 }
 .creatives-title {
-  margin-top: 10vh;
-  margin-bottom: -10vh;
+  margin-top: 0vh;
+  margin-bottom: 0vh;
   color: black;
   position: relative;
-  z-index: 50;
+  z-index: 51;
+  margin-top: 5vh;
 }
 
 .creatives-title h1 {
@@ -744,8 +745,8 @@ and (max-device-width : 640px) {
   overflow-y: hidden;
 }
 .creatives-title {
-  margin-top: -45vh;
-    padding-bottom: 20vh;
+  margin-top: 0vh;
+    padding-bottom: 0vh;
     position: relative;
     color: black;
     z-index: 58;
@@ -777,10 +778,11 @@ and (max-device-width : 640px) {
 }
 
 .creatives-grid {
+  height: unset;
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
   grid-template-rows: repeat(1, auto); 
-  gap: 1px;
+  gap: 1vh;
   align-items: left;
 }
 .creatives-grid > div {
