@@ -260,11 +260,38 @@ setTimeout(function () {
     }
 }, 5500);
 
-swup.hooks.on('page:view', () => {
+function isMobile() {
+    return window.matchMedia('(max-width: 640px)').matches; // Adjust breakpoint as needed
+}
+
+function hideWorkContainer() {
+    const workContainer = document.querySelector('.work-container');
+    if (workContainer) {
+        // Start fade-out by adding the hidden class
+        workContainer.classList.add('hidden');
+
+        // Wait for the transition to complete (500ms) before setting display: none
+        setTimeout(() => {
+            workContainer.style.display = 'none';
+            workContainer.classList.remove('work-show'); // Ensure the "show" class is removed
+            localStorage.setItem('workContainerState', 'hidden');
+        }, 500); // Match the CSS transition duration
+    }
+}
+
+swup.hooks.on('page:view', () => {   
+    if (isMobile()) {
+        hideWorkContainer(); // Run fade-out logic
+    } 
     initializePage();
 });
 
-// work-loader.js
+swup.hooks.on('content:replace', () => {
+    if (isMobile()) {
+        // Ensure this logic runs only on mobile
+        hideWorkContainer();
+    }
+});
 
 function loadWorkContainer() {
     const workContainers = document.querySelectorAll('.work-container');

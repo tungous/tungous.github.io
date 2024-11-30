@@ -333,16 +333,16 @@ h1 a:hover {
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-  text-align: center;
+  text-align: left;
   overflow-y: hidden;
 }
 
 .work-content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column-reverse;
+  align-items: left;
   height: inherit;
   width: inherit;
   opacity: 0;
@@ -361,16 +361,17 @@ h1 a:hover {
 
 
 .work-content h1 {
-  text-align: center;
+  text-align: left;
   font-size: medium;
 }
 
 .work-title {
-  margin-top: 10vh;
-  margin-bottom: -20vh;
+  margin-top: 0vh;
+  margin-bottom: 0vh;
   color: white;
   position: relative;
   z-index: 51;
+  margin-top: 5vh;
 }
 
 .work-title h1 {
@@ -405,9 +406,21 @@ h1 a:hover {
 .work-video {
   position: relative;
   height: 100%;
+  width: 90%;
+  padding-top: 56.25%;
+  z-index: 58;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  transform: scale(1);
+  transform-origin: center;
+}
+.work-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  transform: scale(0.666);
-  z-index: 51;
+  height: 100%;
 }
 
 .work-pdf {
@@ -512,7 +525,7 @@ and (max-device-width : 640px) {
   width: 100%;
   margin: 1vw;
   top: 0%;
-  z-index: 50;
+
   color: white;
   mix-blend-mode: difference;
   }
@@ -539,7 +552,7 @@ and (max-device-width : 640px) {
   }
   .founded {
   margin-top: 0vh;
-  line-height: 2vh;
+  line-height: 2.5vh;
   }
   .founded h1 {
     margin-bottom: -5vh;
@@ -602,7 +615,7 @@ and (max-device-width : 640px) {
   transform: translateY(-5%);
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
-  z-index: 58;
+  z-index: 57;
   margin-top: 4vh;
   }
   h1 {
@@ -644,12 +657,19 @@ and (max-device-width : 640px) {
   align-items: center;
   color: white;
   mix-blend-mode: difference;
-  z-index: 49;
-  opacity: 0;
+  z-index: 60;
+  opacity: 1;
   transition: opacity 0.5s ease-in-out;
+  }
+  .work-container.hidden {
+    opacity: 0;
   }
   .work-container h1 {
     margin-bottom: -6vh;
+  }
+  .work-wrapper {
+    position: fixed;
+    bottom: 7vh;
   }
   .work-present {
     position: relative;
@@ -664,18 +684,17 @@ and (max-device-width : 640px) {
     overflow-y: auto;
     }
     .work-content {
+      display: unset;
     position: relative;
-    height: 100vh;
-    margin-top: 0vh;
-    flex-direction: column-reverse;
-    align-items: center;
+    height: 100%;
+    margin-top: 20vh;
   }
   .work-title {
-    margin-top: -35vh;
-    padding-bottom: 10vh;
+    margin-top: 0vh;
+    padding-bottom: 0vh;
     position: relative;
     color: white;
-    z-index: 48;
+    z-index: 58;
     width: 100%;
     }
 .work-title h1 {
@@ -689,16 +708,29 @@ and (max-device-width : 640px) {
   font-style: italic;
 }
 .work-video {
+  position: relative;
+  height: unset;
+  width: 100%;
+  padding-top: 56.25%; 
+  z-index: 58;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  transform: scale(1);
+  transform-origin: center;
+}
+.work-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  width: 120%;
-  scale: transfrom(1);
-  z-index: 48;
 }
 .work-pdf {
   height: 100%;
   width: 120%;
   scale: transfrom(1);
-  z-index: 48;
+  z-index: 58;
 }
 .creatives-present {
   position: absolute;
@@ -716,7 +748,7 @@ and (max-device-width : 640px) {
     padding-bottom: 20vh;
     position: relative;
     color: black;
-    z-index: 48;
+    z-index: 58;
     width: 100%;
 }
 .creatives-title h1 {
