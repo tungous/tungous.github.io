@@ -1,0 +1,35 @@
+@import "https://use.typekit.net/lcd3hfj.css";
+
+@tailwind base;
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  p {
+    @apply text-lg;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "ivypresto-display", serif;
+  line-height: 1.5;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #fcfbf4;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
